@@ -1,17 +1,67 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom'
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import store from './redux/store';
+import { Provider } from 'react-redux';
 
+
+
+
+// <React.StrictMode> :严格模式相当于语法检查
+// document.getElementById('root')：自动去找public下index。html中id为root的标签
+
+// 只能通知容器组件redux已更改
+// 此处需要用Provider包裹App，
+// 目的是让App所有的后代容器组件都能接收到s
+// store
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>w
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+
+// ReactDOM.render(
+//   <React.StrictMode>
+//       <BrowserRouter>
+//         <App />
+//       </BrowserRouter>w
+//   </React.StrictMode>,
+//   document.getElementById('root')
+// );
+
+// 通知所有组件redux已更改
+// store.subscribe(() => {
+//   ReactDOM.render(
+//     <React.StrictMode>
+//       <BrowserRouter>
+//         <App />
+//       </BrowserRouter>w
+//     </React.StrictMode>,
+//     document.getElementById('root')
+//   );
+// })
+
+
+
+
+// BrowserRouter与HashRouter的区别
+// 1.底层原理不一样：
+//       BrowserRouter使用的是H5的history API，不兼容IE9及以下版本。
+//       HashRouter使用的是URL的哈希值。
+// 2.url表现形式不一样
+//       BrowserRouter的路径中没有#,例如：localhost:3000/demo/test
+//       HashRouter的路径包含#,例如：localhost:3000/#/demo/test
+// 3.刷新后对路由state参数的影响
+//     (1).BrowserRouter没有任何影响，因为state保存在history对象中。
+//     （2）HashRouter刷新后会导致路由state参数的丢失。
+// 4.备注：HashRouter可以用于解决一些路径错误相关的问题。
 reportWebVitals();
